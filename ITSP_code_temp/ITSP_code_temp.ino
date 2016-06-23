@@ -1,4 +1,3 @@
-
 #include<SoftwareSerial.h>
 #define RX 3
 #define TX 2
