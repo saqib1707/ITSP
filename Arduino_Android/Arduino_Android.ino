@@ -43,7 +43,13 @@ void loop() {
     Serial.println(str);
   }
   if(Serial.available()>0){
-    myBluetooth.write("#My name is Saqib1707~");
+     String dataToSend="";
+     String temp="";
+    while(Serial.available()>0){
+      temp+=(char)Serial.read();
+    }
+    dataToSend+=temp;
+    myBluetooth.write(dataToSend);
     delay(5);
   }
 }
