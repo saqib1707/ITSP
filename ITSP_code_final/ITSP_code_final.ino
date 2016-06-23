@@ -1,3 +1,5 @@
+//This code is not going to be used by anyone
+
 #include "SD.h"
 #define SD_ChipSelectPin 4
 #include "TMRpcm.h"
