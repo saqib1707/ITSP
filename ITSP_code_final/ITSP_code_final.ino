@@ -1,3 +1,5 @@
+//Fuck you since u r a little weird
+
 #include "SD.h"
 #define SD_ChipSelectPin 4
 #include "TMRpcm.h"
