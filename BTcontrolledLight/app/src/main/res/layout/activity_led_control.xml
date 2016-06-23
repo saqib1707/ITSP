@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.gmail.saqib1707.btcontrolledlight.LedControl"
+    android:background="@android:color/holo_purple"
+    android:longClickable="false">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Led On"
+        android:id="@+id/button.ledturnon"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
+        android:background="@color/common_action_bar_splitter" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Led Off"
+        android:id="@+id/button.ledturnoff"
+        android:layout_below="@+id/button.ledturnon"
+        android:layout_centerHorizontal="true"
+        android:focusableInTouchMode="true"
+        android:background="@color/common_action_bar_splitter" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disconnect"
+        android:id="@+id/button.disconnect"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/button.ledturnoff"
+        android:background="#d0caca"
+        android:focusableInTouchMode="true"
+        android:layout_alignRight="@+id/textView.texttospeech"
+        android:layout_alignEnd="@+id/textView.texttospeech"
+        android:layout_alignLeft="@+id/textView.texttospeech"
+        android:layout_alignStart="@+id/textView.texttospeech" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar.brightness"
+        android:layout_marginBottom="112dp"
+        android:paddingTop="5dp"
+        android:max="255"
+        android:progress="0"
+        android:indeterminate="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Brightness->"
+        android:id="@+id/textView.brightness"
+        android:textSize="25dp"
+        android:textColor="#1a26d0"
+        android:layout_above="@+id/seekBar.brightness"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/seekBar.brightness"
+        android:layout_alignEnd="@+id/seekBar.brightness"
+        android:background="@color/common_action_bar_splitter"
+        android:padding="5dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView.progressvalue"
+        android:layout_above="@+id/seekBar.brightness"
+        android:layout_alignTop="@+id/textView.brightness"
+        android:layout_toRightOf="@+id/textView.receivedmessage"
+        android:layout_toEndOf="@+id/textView.receivedmessage"
+        android:textSize="25dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Message Received"
+        android:id="@+id/textView.receivedmessage"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:textSize="20dp"
+        style="@style/AppTheme" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView.texttospeech"
+        android:text="Text To Speech"
+        android:background="#bbb8b8"
+        android:padding="5dp"
+        android:layout_above="@+id/textView.receivedmessage"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
