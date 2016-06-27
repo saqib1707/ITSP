@@ -1,18 +1,19 @@
 #include<SoftwareSerial.h>
 int ledpin=9;
-#define RX 3
-#define TX 2
-SoftwareSerial myBluetooth(TX,RX);
+#define RX 10
+#define TX 11
+SoftwareSerial myBluetooth(RX,TX);
 char readData;
 boolean isLedOn=false;
+int sensorvalue=10;
 
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(19200);
-  while(!Serial){
-  };
-  pinMode(9,OUTPUT);
+ /* while(!Serial){
+  };*/
+  pinMode(ledpin,OUTPUT);
   myBluetooth.begin(9600);
 
 }
@@ -42,7 +43,7 @@ void loop() {
     }else;
     Serial.println(str);
   }
-  if(Serial.available()>0){
+  /*if(Serial.available()>0){
      String dataToSend="";
      String temp="";
     while(Serial.available()>0){
@@ -51,5 +52,12 @@ void loop() {
     dataToSend+=temp;
     myBluetooth.write(dataToSend);
     delay(5);
+  }*/
+  if(Serial.available()>0){
+  myBluetooth.write("#I love u~");
+ //myBluetooth.print(sensorvalue);
+ // myBluetooth.print('~');
+  Serial.println();
+  delay(1000);
   }
 }

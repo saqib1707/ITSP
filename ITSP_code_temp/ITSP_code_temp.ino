@@ -1,7 +1,7 @@
 #include<SoftwareSerial.h>
-#define RX 3
-#define TX 2
-SoftwareSerial myBluetooth(TX,RX);
+#define RX 10
+#define TX 11
+SoftwareSerial myBluetooth(RX,TX);
 
 
 int acc_x_array[2];
@@ -67,8 +67,7 @@ void loop(){
     for(int i=0 ; i<2 ;i++){ 
     Serial.print(acc_z_array[i]) ;
     Serial.print("\t") ;
-    
-      }
+    }
 Serial.print("\n") ;
   
   for(int j=0 ; j<2 ; j++) {
@@ -173,4 +172,6 @@ Serial.print("\n") ;
     is_fuckoff=false ;
     delay(1000);
   }
+  myBluetooth.write("#I love you~");
+  delay(10);
 }

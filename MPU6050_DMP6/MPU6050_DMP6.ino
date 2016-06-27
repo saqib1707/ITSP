@@ -43,7 +43,6 @@ THE SOFTWARE.
 
 // I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files
 // for both classes must be in the include path of your project
-#include<SoftwareSerial.h>
 #include "I2Cdev.h"
 
 #include "MPU6050_6Axis_MotionApps20.h"
@@ -55,10 +54,6 @@ THE SOFTWARE.
     #include "Wire.h"
 #endif
 
-
-
-
-
 // class default I2C address is 0x68
 // specific I2C addresses may be passed as a parameter here
 // AD0 low = 0x68 (default for SparkFun breakout and InvenSense evaluation board)
@@ -66,9 +61,6 @@ THE SOFTWARE.
 MPU6050 mpu;
 //MPU6050 mpu(0x69); // <-- use for AD0 high
 
-#define RX 10
-#define TX 11
-SoftwareSerial myBluetooth(RX,TX);
 /* =========================================================================
    NOTE: In addition to connection 3.3v, GND, SDA, and SCL, this sketch
    depends on the MPU-6050's INT pin being connected to the Arduino's
@@ -180,8 +172,7 @@ void setup() {
     // really up to you depending on your project)
     Serial.begin(115200);
     while (!Serial); // wait for Leonardo enumeration, others continue immediately
-    myBluetooth.begin(9600);
-    
+
     // NOTE: 8MHz or slower host processors, like the Teensy @ 3.3v or Ardunio
     // Pro Mini running at 3.3v, cannot handle this baud rate reliably due to
     // the baud timing being too misaligned with processor ticks. You must use
@@ -322,12 +313,13 @@ void loop() {
             mpu.dmpGetQuaternion(&q, fifoBuffer);
             mpu.dmpGetGravity(&gravity, &q);
             mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-            float y=ypr[0]*180.0/M_PI;
-            float p=ypr[1]*180.0/M_PI;
-            float r=ypr[2]*180.0/M_PI;
-            String str="#"+(String)y+" "+(String)p+" "+(String)r+"~";
-            Serial.println(str);
-            myBluetooth.print(str);
+            Serial.print("ypr\t");
+            Serial.print(ypr[0] * 180/M_PI);
+            Serial.print("\t");
+            Serial.print(ypr[1] * 180/M_PI);
+            Serial.print("\t");
+            Serial.println(ypr[2] * 180/M_PI);
+           
         #endif
 
         #ifdef OUTPUT_READABLE_REALACCEL
