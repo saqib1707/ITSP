@@ -199,6 +199,8 @@ public class ProcessingActivity extends AppCompatActivity {
                     btAdapter.cancelDiscovery();
                     btSocket.connect();
                     connectSuccess = true;
+                    myThread = new ConnectedThread(btSocket);
+                    myThread.start();
                 }
             } catch (IOException e) {
                 connectSuccess = false;
@@ -279,12 +281,6 @@ public class ProcessingActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        myThread = new ConnectedThread(btSocket);
-        myThread.start();
-    }*/
 
     public class ConnectedThread extends Thread {
         private final InputStream mmInStream;
