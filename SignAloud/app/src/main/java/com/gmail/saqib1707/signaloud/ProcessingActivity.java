@@ -8,11 +8,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,7 +42,8 @@ public class ProcessingActivity extends AppCompatActivity {
     StringBuilder recReadData;
     ConnectedThread myThread;
     TextToSpeech textToSpeech;
-    ConnectBluetooth bt = new ConnectBluetooth();
+
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -72,7 +73,10 @@ public class ProcessingActivity extends AppCompatActivity {
         disconnect = (Button) findViewById(R.id.button_disconnect);
         msgReceived = (TextView) findViewById(R.id.textView_receivedmessage);
         recReadData = new StringBuilder();
+        ConnectBluetooth bt = new ConnectBluetooth();
         bt.execute();
+
+
 
         myHandler = new Handler() {
             public void handleMessage(Message msg) {
@@ -87,9 +91,9 @@ public class ProcessingActivity extends AppCompatActivity {
                             String toSpeak = msgReceived.getText().toString();
                             msg(toSpeak);
                             if (Build.VERSION.RELEASE.startsWith("6")) {
-                                textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
+                                // textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
                             } else {
-                                textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                                // textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                             }
                         }
                         recReadData.delete(0, recReadData.length());
@@ -97,6 +101,10 @@ public class ProcessingActivity extends AppCompatActivity {
                 }
             }
         };
+        Intent checkttsintent = new Intent();
+        checkttsintent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkttsintent, 0);
+
 
         ledTurnOn.setOnClickListener(
                 new View.OnClickListener() {
@@ -191,7 +199,6 @@ public class ProcessingActivity extends AppCompatActivity {
                     btAdapter.cancelDiscovery();
                     btSocket.connect();
                     connectSuccess = true;
-
                 }
             } catch (IOException e) {
                 connectSuccess = false;
@@ -226,7 +233,7 @@ public class ProcessingActivity extends AppCompatActivity {
                             textToSpeech.setLanguage(Locale.US);
                             msg("Text to speech success");
                         } else if (status == TextToSpeech.ERROR) {
-                            msg("Sorry Text to speech failed");
+                            Toast.makeText(ProcessingActivity.this,"Sorry Text to speech failed",Toast.LENGTH_SHORT).show();
                         } else {
                             //Nothing to do
                         }
@@ -246,9 +253,8 @@ public class ProcessingActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
-        Intent checkttsintent = new Intent();
-        checkttsintent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-        startActivityForResult(checkttsintent, 0);
+
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(
@@ -273,12 +279,12 @@ public class ProcessingActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         myThread = new ConnectedThread(btSocket);
         myThread.start();
-    }
+    }*/
 
     public class ConnectedThread extends Thread {
         private final InputStream mmInStream;
@@ -294,6 +300,7 @@ public class ProcessingActivity extends AppCompatActivity {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
+
             }
 
             mmInStream = tmpIn;
