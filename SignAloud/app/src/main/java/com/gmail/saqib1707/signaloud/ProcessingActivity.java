@@ -1,12 +1,8 @@
 package com.gmail.saqib1707.signaloud;
 
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,17 +22,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Locale;
-import java.util.UUID;
 
 public class ProcessingActivity extends AppCompatActivity {
 
-    Button ledTurnOn, ledTurnOff, disconnect;
-    ProgressDialog progress;
-    UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    BluetoothSocket btSocket = null;
-    BluetoothAdapter btAdapter = null;
-    boolean isBtconnected = false;
-    String address = null;
+    Button ledTurnOn, ledTurnOff, disconnect,startListening,stopListening;
+    //ProgressDialog progress;
+   // UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+   // BluetoothSocket btSocket = null;
+    //BluetoothAdapter btAdapter = null;
+    //boolean isBtconnected = false;
+   // String address = null;
     TextView msgReceived;
     static Handler myHandler;
     StringBuilder recReadData;
@@ -66,15 +61,17 @@ public class ProcessingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_processing);
-        Intent receivedIntent = getIntent();
-        address = receivedIntent.getStringExtra(HomeActivity.EXTRA_ADDRESS);
-        ledTurnOff = (Button) findViewById(R.id.button_ledturnoff);
-        ledTurnOn = (Button) findViewById(R.id.button_ledturnon);
-        disconnect = (Button) findViewById(R.id.button_disconnect);
+        /*Intent receivedIntent = getIntent();
+        address = receivedIntent.getStringExtra(HomeActivity.EXTRA_ADDRESS);*/
+        //ledTurnOff = (Button) findViewById(R.id.button_ledturnoff);
+        //ledTurnOn = (Button) findViewById(R.id.button_ledturnon);
+        //disconnect = (Button) findViewById(R.id.button_disconnect);
+        startListening=(Button)findViewById(R.id.button_startlistening);
+        stopListening=(Button)findViewById(R.id.button_stoplistening);
         msgReceived = (TextView) findViewById(R.id.textView_receivedmessage);
         recReadData = new StringBuilder();
-        ConnectBluetooth bt = new ConnectBluetooth();
-        bt.execute();
+       /* ConnectBluetooth bt = new ConnectBluetooth();
+        bt.execute();*/
 
 
 
@@ -91,9 +88,9 @@ public class ProcessingActivity extends AppCompatActivity {
                             String toSpeak = msgReceived.getText().toString();
                             msg(toSpeak);
                             if (Build.VERSION.RELEASE.startsWith("6")) {
-                                // textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
+                                 textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
                             } else {
-                                // textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                                textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                             }
                         }
                         recReadData.delete(0, recReadData.length());
@@ -106,13 +103,13 @@ public class ProcessingActivity extends AppCompatActivity {
         startActivityForResult(checkttsintent, 0);
 
 
-        ledTurnOn.setOnClickListener(
+        /*ledTurnOn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (btSocket != null) {
+                        if (OptionsActivity.btSocket != null) {
                             try {
-                                btSocket.getOutputStream().write("TO".getBytes());
+                                OptionsActivity.btSocket.getOutputStream().write("TO".getBytes());
                                 msg("TO sent to HC-05");
                             } catch (Exception e) {
                                 msg("Unable to TurnOn");
@@ -126,9 +123,9 @@ public class ProcessingActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (btSocket != null) {
+                        if (OptionsActivity.btSocket != null) {
                             try {
-                                btSocket.getOutputStream().write("TF".getBytes());
+                                OptionsActivity.btSocket.getOutputStream().write("TF".getBytes());
                                 msg("TF sent to HC-05");
                             } catch (Exception e) {
                                 msg("Unable to TurnOff");
@@ -136,23 +133,43 @@ public class ProcessingActivity extends AppCompatActivity {
                         }
                     }
                 }
-        );
+        );*/
 
-        disconnect.setOnClickListener(
+        /*disconnect.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (btSocket != null) {
+                        if (OptionsActivity.btSocket != null) {
                             try {
-                                btSocket.getOutputStream().close();
-                                btSocket.getInputStream().close();
-                                btSocket.close();
+                                OptionsActivity.btSocket.getOutputStream().close();
+                                OptionsActivity.btSocket.getInputStream().close();
+                                OptionsActivity.btSocket.close();
                                 msg("Disconnected");
                             } catch (Exception e) {
                                 msg("Unable to Disconnect");
                             }
                         }
                         finish();
+                    }
+                }
+        );*/
+
+        stopListening.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        myThread.stop();
+                    }
+                }
+        );
+
+        startListening.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myThread=new ConnectedThread(OptionsActivity.btSocket);
+                        myThread.start();
                     }
                 }
         );
@@ -181,7 +198,7 @@ public class ProcessingActivity extends AppCompatActivity {
         client.disconnect();
     }
 
-    public class ConnectBluetooth extends AsyncTask<Void, Void, Void> {
+    /*public class ConnectBluetooth extends AsyncTask<Void, Void, Void> {
         boolean connectSuccess = true;
 
         @Override
@@ -222,7 +239,7 @@ public class ProcessingActivity extends AppCompatActivity {
             }
             progress.dismiss();
         }
-    }
+    }*/
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.gmail.saqib1707.signaloud.HomeActivity">
+    tools:context="com.gmail.saqib1707.signaloud.HomeActivity"
+    android:background="@color/accent_material_light">
 
     <Button
         android:layout_width="wrap_content"
@@ -15,7 +16,8 @@
         android:text="List Paired Devices"
         android:id="@+id/button.paireddeviceslist"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:clickable="true" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -25,5 +27,6 @@
         android:layout_marginTop="106dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:choiceMode="singleChoice" />
+        android:choiceMode="singleChoice"
+        android:background="@color/accent_material_dark" />
 </RelativeLayout>

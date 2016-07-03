@@ -101,7 +101,7 @@ public class HomeActivity extends AppCompatActivity {
             try {
                 String info = ((TextView) v).getText().toString();
                 String address = info.substring(info.length() - 17);
-                Intent nextIntent = new Intent(HomeActivity.this, ProcessingActivity.class);
+                Intent nextIntent = new Intent(HomeActivity.this, OptionsActivity.class);
                 nextIntent.putExtra(EXTRA_ADDRESS, address);
                 startActivity(nextIntent);
             } catch (Exception e) {
