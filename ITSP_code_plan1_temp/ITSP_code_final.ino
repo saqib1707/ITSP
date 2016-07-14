@@ -1,4 +1,4 @@
-//This code is not going to be used by anyone
+//This code is not going to be used anymore
 
 #include "SD.h"
 #define SD_ChipSelectPin 4

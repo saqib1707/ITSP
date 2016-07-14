@@ -1,8 +1,8 @@
 #include<SoftwareSerial.h>
 int ledpin=9;
-#define RX 3
-#define TX 2
-SoftwareSerial myBluetooth(TX,RX);
+#define RX 10
+#define TX 11
+SoftwareSerial myBluetooth(RX,TX);
 char readData;
 boolean isLedOn=false;
 int sensorvalue=10;
@@ -55,16 +55,7 @@ void loop() {
     delay(5);
   }*/
   if(Serial.available()>0){
-    if(count%2==0){
-  myBluetooth.write("#My name is saqib1707~");
-  Serial.println();
-  delay(10);
-  count++;
-    }else{
-      myBluetooth.write("#Your name is Sankhe~");
-      delay(10);
-      count++;
-    }
+  myBluetooth.print("#My name is saqib1707~");
   }
  
 }

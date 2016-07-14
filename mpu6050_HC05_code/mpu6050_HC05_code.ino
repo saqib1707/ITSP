@@ -51,6 +51,8 @@ THE SOFTWARE.
 
 // Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation
 // is used in I2Cdev.h
+
+boolean check(int ,int ,int ,int,int,int,int,int,int ,int);
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     #include "Wire.h"
 #endif
@@ -69,6 +71,7 @@ MPU6050 mpu;
 #define RX 10
 #define TX 11
 SoftwareSerial myBluetooth(RX,TX);
+int flex_thumb,flex_index,flex_middle,flex_ring,flex_pinky;
 /* =========================================================================
    NOTE: In addition to connection 3.3v, GND, SDA, and SCL, this sketch
    depends on the MPU-6050's INT pin being connected to the Arduino's
@@ -197,10 +200,10 @@ void setup() {
     Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
 
     // wait for ready
-    Serial.println(F("\nSend any character to begin DMP programming and demo: "));
+  /*  Serial.println(F("\nSend any character to begin DMP programming and demo: "));
     while (Serial.available() && Serial.read()); // empty buffer
     while (!Serial.available());                 // wait for data
-    while (Serial.available() && Serial.read()); // empty buffer again
+    while (Serial.available() && Serial.read()); // empty buffer again*/
 
     // load and configure the DMP
     Serial.println(F("Initializing DMP..."));
@@ -326,8 +329,8 @@ void loop() {
             float p=ypr[1]*180.0/M_PI;
             float r=ypr[2]*180.0/M_PI;
             String str="#"+(String)y+" "+(String)p+" "+(String)r+"~";
-            Serial.println(str);
-            myBluetooth.print(str);
+            //Serial.println(str);
+           // myBluetooth.print(str);
         #endif
 
         #ifdef OUTPUT_READABLE_REALACCEL
@@ -380,4 +383,110 @@ void loop() {
         blinkState = !blinkState;
         digitalWrite(LED_PIN, blinkState);
     }
+
+   flex_thumb = analogRead(A0)-760 ;
+   flex_index = analogRead(A1)-720 ;
+   flex_middle = analogRead(A2)-697 ; 
+   flex_ring = analogRead(A3)-770 ;
+   flex_pinky = analogRead(A4)-790 ;
+  Serial.print("thumb = ");
+  Serial.print(flex_thumb);
+  Serial.print("\t");
+
+  Serial.print("index = ");
+  Serial.print(flex_index);
+  Serial.print("\t");
+
+  Serial.print("middle = ");
+  Serial.print(flex_middle);
+  Serial.print("\t");
+
+  Serial.print("ring = ");
+  Serial.print(flex_ring);
+  Serial.print("\t");
+
+  Serial.print("pinky = ");
+  Serial.print(flex_pinky);
+  Serial.println("\t");
+  Serial.print("\n");
+
+  //flex values checking for letters.
+ 
+
+  if(check(65,85,100,130,105,130,105,120,75,95)){
+    myBluetooth.write("#a~");
+    Serial.println("a");
+    delay(500);
+  }
+  else if(check(25,50,20,40,20,45,15,35,-15,5)){
+    myBluetooth.write("#b~");
+     Serial.println("b");
+     delay(500);
+  }
+  else if(check(15,35,40,70,79,103,70,100,30,60)){
+    myBluetooth.write("#c~");
+     Serial.println("c");
+     delay(500);
+  }
+  else if(check(55,75,30,55,130,155,100,125,60,85)){
+    myBluetooth.write("#d~");
+     Serial.println("d");
+     delay(500);
+  }
+  else if(check(65,95,125,150,115,145,105,125,-15,5)){
+    myBluetooth.write("#i~");
+     Serial.println("i");
+     delay(500);
+  }
+  else if(check(-5,15,25,50,30,55,100,130,60,90)){
+    myBluetooth.write("#k~");
+     Serial.println("k");
+     delay(500);
+  }
+  else if(check(75,100,95,125,100,130,85,120,75,100)){
+    myBluetooth.write("#m~");
+     Serial.println("m");
+     delay(500);
+  }
+  else if(check(20,45,20,40,35,55,110,140,70,100)){
+    myBluetooth.write("#u~");
+     Serial.println("u");
+     delay(500);
+  }
+  else if(check(20,60,15,40,15,40,30,65,80,110)){
+    myBluetooth.write("#w~");
+     Serial.println("w");
+     delay(500);
+  }
+  else if(check(90,115,115,140,120,140,95,120,75,100)){
+    myBluetooth.write("#x~");
+     Serial.println("x");
+     delay(500);
+  }
+  else if(check(-15,10,110,150,110,150,100,140,-15,10)){
+    myBluetooth.write("#y~");
+     Serial.println("y");
+     delay(500);
+  }
+  else if(check(30,70,40,75,85,115,70,100,30,60)){
+    myBluetooth.write("#o~");
+     Serial.println("o");
+     delay(500);
+  }
+  else if(check(-15,15,30,60,120,150,100,135,60,95)){
+    myBluetooth.write("#l~");
+     Serial.println("l");
+     delay(500);
+  }
+  else;
+  
 }
+boolean check(int thumbL,int thumbH,int indexL,int indexH,int middleL,int middleH,int ringL,int ringH,int littleL,int littleH){
+  if(flex_thumb>=thumbL && flex_thumb<=thumbH && flex_index>=indexL && flex_index<=indexH && flex_middle>=middleL && flex_middle<=middleH && flex_ring>=ringL && flex_ring<=ringH && flex_pinky>=littleL && flex_pinky<=littleH){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+

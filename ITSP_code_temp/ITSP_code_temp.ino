@@ -21,9 +21,9 @@ void setup(){
 void loop(){
   int acc_x = analogRead(A5)-352 , acc_y=analogRead(A6)-352 , acc_z=analogRead(A7)-352 ;//creating accelerometer readings
   int  hello_threshold_acc_x_count=0 , yes_threshold_acc_x_count=0 ,you_threshold_acc_z_count=0 ;
-  int flex_thumb = analogRead(A0)-760 , flex_index = analogRead(A1)-720 , flex_middle = analogRead(A2)-697 , flex_ring = analogRead(A3)-770 , flex_pinky = analogRead(A4)-790 ;//reading flex sensor values
+  int flex_thumb = analogRead(A0)-760 , flex_index = analogRead(A1)-720 , flex_middle = analogRead(A2)-697 , flex_ring = analogRead(A3)-770 , flex_pinky = analogRead(A6)-790 ;//reading flex sensor values
   
-  Serial.print("ax = ");
+ /* Serial.print("ax = ");
   Serial.print(acc_x);
   Serial.print("\t");
   
@@ -34,7 +34,7 @@ void loop(){
   Serial.print("az = ");
   Serial.print(acc_z);
   Serial.println("\t");
-  Serial.print("\n") ;
+  Serial.print("\n") ;*/
 
   Serial.print("thumb = ");
   Serial.print(flex_thumb);
@@ -56,7 +56,7 @@ void loop(){
   Serial.print(flex_pinky);
   Serial.println("\t");
   Serial.print("\n");
-  delay(50);
+  delay(500);
   //check hello and yes
   acc_x_array[acc_x_array_index] = acc_x ;
   acc_x_array_index = (acc_x_array_index+1)%2; 
@@ -65,8 +65,30 @@ void loop(){
   acc_z_array_index = (acc_x_array_index+1)%2; // creating acc_x_array and acc_z_array
 
     for(int i=0 ; i<2 ;i++){ 
-    Serial.print(acc_z_array[i]) ;
-    Serial.print("\t") ;
+   /* Serial.print(acc_z_array[i]) ;
+    Serial.print("\t") ;*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     }
 Serial.print("\n") ;
   
@@ -172,6 +194,6 @@ Serial.print("\n") ;
     is_fuckoff=false ;
     delay(1000);
   }
-  myBluetooth.write("#I love you~");
-  delay(10);
+ /* myBluetooth.write("#I love you~");
+  delay(100);*/
 }
